@@ -240,6 +240,7 @@ namespace BellManager
                     {
                         AddExtension = true,
                         DefaultExt = ".json",
+                        Filter = "JSON Files|*.json",
                         OverwritePrompt = true,
                     };
                     bool result = fileDialog.ShowDialog() == DialogResult.OK;
@@ -346,17 +347,18 @@ namespace BellManager
     public class Bell : INotifyPropertyChanged
     {
         private static int counter = 1;
+        private static int startHours = 8;
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string property = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
-        private int startTimeH = 0;
-        private int startTimeM = 0;
-        private int endTimeH = 0;
-        private int endTimeM = 0;
-        private bool isEnabled;
+        private int startTimeH = startHours++;
+        private int startTimeM = 30;
+        private int endTimeH = startHours;
+        private int endTimeM = 15;
+        private bool isEnabled = true;
         private int bellNumber = counter++;
         public int StartTimeH
         {
