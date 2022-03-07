@@ -23,4 +23,4 @@
 ## Целевая платформа: Windows 7 и выше с установленным .NET Framework Runtime 4.6.1
 
 
-* Создано Alexus16 по запросу School1811*
+*Создано Alexus16 по запросу School1811*
