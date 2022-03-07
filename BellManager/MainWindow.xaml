@@ -1,0 +1,32 @@
+﻿<Window x:Class="BellManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BellManager" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        mc:Ignorable="d"
+        Title="Менеджер звонков" Height="720" Width="600" Background="{DynamicResource BackgroundMainWindowColor}" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ResourceDictionary Source="/Styles.xaml"/>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Style="{DynamicResource infoTextBlockStyle}" Text="Имя конфигурации: " VerticalAlignment="Center"/>
+                <TextBox Text="{Binding Name}" Style="{DynamicResource uiTextBox}" Width="250" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <TextBlock Text="Порт: " Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                <ComboBox Name="serialPortSelector" ItemsSource="{Binding Ports}" SelectedItem="{Binding SelectedPortName}" Style="{DynamicResource combobStyle}" Width="300" VerticalAlignment="Center"/>
+            </StackPanel>
+            <ListBox ItemsSource="{Binding Bells}" Style="{DynamicResource bellView}" HorizontalAlignment="Center">
+               
+            </ListBox>
+            <StackPanel Orientation="Horizontal" Margin="0, 10" HorizontalAlignment="Center">
+                <Button Command="{Binding ConnectAndSendCommand}" Content="Передать в порт" Style="{DynamicResource actionButton}" Margin="10,0"/>
+                <Button Command="{Binding OpenCommand}" Content="Открыть" Style="{DynamicResource uiButton}" Margin="10,0"/>
+                <Button Command="{Binding SaveCommand}" Content="Сохранить" Style="{DynamicResource uiButton}" Margin="10,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

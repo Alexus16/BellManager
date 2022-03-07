@@ -1,0 +1,510 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:b="clr-namespace:BellManager">
+    <Style TargetType="Button" x:Key="actionButton">
+        <Setter Property="Background" Value="{DynamicResource BackgroundButtonColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource FontButtonColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="3"
+                            Background="{TemplateBinding Background}" Padding="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource BackgroundButtonColorHover}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource BackgroundButtonColorClicked}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource BackgroundButtonColorDisabled}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Button" x:Key="uiButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource FontButtonColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="3"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding Foreground}"
+                            BorderThickness="1">
+                        <ContentPresenter Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#70aaaaaa"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#70ababab"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource backgroundActionButtonDisabled}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="uiTextBox">
+        <Setter Property="Foreground" Value="{DynamicResource FontUIColor}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundUIColor}"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="textboxBorder"
+                                            BorderBrush="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="3"
+                                            Padding="0">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                                 Background="Transparent"
+                                                 BorderBrush="Transparent"
+                                                 Padding="{TemplateBinding Padding}"
+                                                 FontFamily="{TemplateBinding FontFamily}"
+                                                 FontSize="{TemplateBinding FontSize}"
+                                                 Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="textboxBorder" Property="Background" Value="{DynamicResource BackgroundUIColorHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="textboxBorder" Property="Background" Value="{DynamicResource BackgroundUIColorClicked}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="infoTextBlockStyle">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="{DynamicResource FontInfoColor}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style.Setters>
+    </Style>
+    
+    <Style TargetType="CheckBox" x:Key="uiCheckbox">
+        <Setter Property="Foreground" Value="{DynamicResource BackgroundButtonColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <ToggleButton IsChecked="{Binding RelativeSource={RelativeSource AncestorType=CheckBox}, Mode=TwoWay, Path=IsChecked}">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border Background="Transparent">
+                                    <ContentPresenter/>
+                                </Border>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="12"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Grid.Column="0" Margin="0,0,4,0"/>
+                            <Grid Grid.Column="1">
+                                <Border BorderBrush="{DynamicResource BackgroundButtonColor}" Width="11" Height="11"
+                                                            BorderThickness="1"
+                                                            VerticalAlignment="Center"
+                                        CornerRadius="2"
+                                        HorizontalAlignment="Center"
+                                        x:Name="borderItem">
+                                    <Border Background="{DynamicResource BackgroundButtonColor}"
+                                            Visibility="Collapsed" x:Name="CheckPart"
+                                            Margin="2"
+                                            CornerRadius="1"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </ToggleButton>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckPart" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="CheckPart" Property="Background" Value="{DynamicResource BackgroundButtonColorHover}"/>
+                            <Setter TargetName="borderItem" Property="BorderBrush" Value="{DynamicResource BackgroundButtonColorHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="CheckPart" Property="Background" Value="{DynamicResource FontInfoColor}"/>
+                            <Setter TargetName="borderItem" Property="BorderBrush" Value="{DynamicResource FontInfoColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource FontInfoColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ListBox" x:Key="bellView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border BorderBrush="{DynamicResource foreColor}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                        <ItemsPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border BorderBrush="{DynamicResource foreColor}"
+                            CornerRadius="3"
+                            BorderThickness="1"
+                            Background="Transparent">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="180"/>
+                                            <ColumnDefinition Width="180"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="10,6" Orientation="Horizontal">
+                                            <TextBlock Text="№ " Style="{DynamicResource infoTextBlockStyle}" FontSize="18" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding BellNumber}" Style="{DynamicResource infoTextBlockStyle}" FontSize="18" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Border Background="{DynamicResource FontInfoColor}" Width="1" Margin="0,7" HorizontalAlignment="Right" Grid.Column="0"/>
+                                        <CheckBox Style="{DynamicResource uiCheckbox}" IsChecked="{Binding IsEnabled}" Grid.Column="1" Margin="10,6" VerticalAlignment="Center">
+                                            <TextBlock Text="Состояние" Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                                        </CheckBox>
+                                        <Border Background="{DynamicResource FontInfoColor}" Width="1" Margin="0,7" HorizontalAlignment="Right" Grid.Column="1"/>
+                                        <StackPanel Orientation="Horizontal" Margin="10,6" Grid.Column="2" VerticalAlignment="Center">
+                                            <TextBlock Text="Начало: " Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                                            <TextBox Style="{DynamicResource uiTextBox}" Text="{Binding StartTimeH}" VerticalAlignment="Center" Width="40" AutoWordSelection="True">
+                                                <i:Interaction.Behaviors>
+                                                    <b:AutoSelectBehavior/>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                            <TextBlock Text=":" Margin="2, 0" Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                                            <TextBox Style="{DynamicResource uiTextBox}" Text="{Binding StartTimeM}" VerticalAlignment="Center" Width="40" AutoWordSelection="True">
+                                                <i:Interaction.Behaviors>
+                                                    <b:AutoSelectBehavior/>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <Border Background="{DynamicResource FontInfoColor}" Width="1" Margin="0,7" HorizontalAlignment="Right" Grid.Column="2"/>
+                                        <StackPanel Orientation="Horizontal" Margin="10,6" Grid.Column="3" VerticalAlignment="Center">
+                                            <TextBlock Text="Конец: " Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                                            <TextBox Style="{DynamicResource uiTextBox}" Text="{Binding EndTimeH}" VerticalAlignment="Center" Width="40" AutoWordSelection="True">
+                                                <i:Interaction.Behaviors>
+                                                    <b:AutoSelectBehavior/>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                            <TextBlock Text=":" Margin="2, 0" Style="{DynamicResource infoTextBlockStyle}" VerticalAlignment="Center"/>
+                                            <TextBox Style="{DynamicResource uiTextBox}" Text="{Binding EndTimeM}" VerticalAlignment="Center" Width="40" AutoWordSelection="True">
+                                                <i:Interaction.Behaviors>
+                                                    <b:AutoSelectBehavior/>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ComboBox" x:Key="combobStyle">
+        <Style.Setters>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource FontUIColor}"/>
+            <Setter Property="Background" Value="{DynamicResource BackgroundUIColor}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Style="{DynamicResource combobToggleButtonStyle}"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ContentPresenter Content="{TemplateBinding SelectedItem}"
+                                                    ContentTemplate="{TemplateBinding ItemTemplate}"
+                                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                    Margin="10,10,30,10"
+                                                    VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Left"/>
+                            </ToggleButton>
+                            <Popup x:Name="Popup"
+                                    Placement="Bottom"
+                                    IsOpen="{TemplateBinding IsDropDownOpen}"
+                                    AllowsTransparency="True"
+                                    Focusable="False"
+                                    PopupAnimation="Slide"
+                                   HorizontalAlignment="Stretch"
+                                   Width="{TemplateBinding ActualWidth}">
+                                <Grid>
+                                    <Border CornerRadius="3"
+                                            Background="{DynamicResource BackgroundUIColor}"
+                                            HorizontalAlignment="Stretch">
+                                        <ScrollViewer Style="{DynamicResource scrollViewerSmallStyle}">
+                                            <StackPanel IsItemsHost="True"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle" Value="{DynamicResource combobItemStyle}"/>
+        </Style.Setters>
+    </Style>
+
+    <Style TargetType="ScrollViewer" x:Key="scrollViewerSmallStyle">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="12"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                Grid.Column="0">
+                            <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}"/>
+                        </Border>
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                   Value="{TemplateBinding VerticalOffset}"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Grid.Column="1"
+                                   Style="{DynamicResource scrollBarSmallStyle}"
+                                   Margin="0, 1"
+                                   VerticalAlignment="Stretch">
+                        </ScrollBar>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ScrollBar" x:Key="scrollBarSmallStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="Transparent">
+                        <Track x:Name="PART_Track"
+                                   IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageUpCommand">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Transparent">
+                                                <ContentPresenter/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{DynamicResource thumbStyle}"
+                                           Width="5">
+                                </Thumb>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageDownCommand">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate TargetType="RepeatButton">
+                                            <Border Background="Transparent">
+                                                <ContentPresenter/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Thumb" x:Key="thumbStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{DynamicResource ThumbColor}"
+                            CornerRadius="4"
+                            x:Name="borderThumb"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="borderThumb" Property="Background" Value="{DynamicResource ThumbColorHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="True">
+                            <Setter TargetName="borderThumb" Property="Background" Value="{DynamicResource ThumbColorClick}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ToggleButton" x:Key="combobToggleButtonStyle">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="{DynamicResource FontUIColor}"/>
+            <Setter Property="Background" Value="{DynamicResource BackgroundUIColor}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="{DynamicResource FontUIColor}"
+                                      Grid.Column="1"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"/>
+                                <ContentPresenter Grid.Column="0"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource BackgroundUIColorHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource BackgroundUIColorClicked}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style TargetType="ComboBoxItem" x:Key="combobItemStyle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{DynamicResource FontUIColor}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundUIColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                            Padding="10"
+                            HorizontalAlignment="Stretch">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource BackgroundUIColorHover}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource BackgroundUIColorClicked}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+    <SolidColorBrush x:Key="BackgroundUIColor">#323339</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundUIColorHover">#242529</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundUIColorClicked">#2b2c30</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderUIButtonColor">#a0a6b4</SolidColorBrush>
+
+    <SolidColorBrush x:Key="FontUIColor">#6e6e75</SolidColorBrush>
+    <SolidColorBrush x:Key="FontButtonColor">#f1f7ff</SolidColorBrush>
+    <SolidColorBrush x:Key="FontTabButtonColor">#f1f7ff</SolidColorBrush>
+    <SolidColorBrush x:Key="FontTabButtonColorPressed">#B8BCC1</SolidColorBrush>
+    <SolidColorBrush x:Key="FontTabButtonColorHover">#CDD1D6</SolidColorBrush>
+    <Color x:Key="EffectTabButtonColor">#f1f7ff</Color>
+    <SolidColorBrush x:Key="FontInfoColor">#9fa4b2</SolidColorBrush>
+    <SolidColorBrush x:Key="FontTitleColor">#ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="FontOrangeColor">#fbb94b</SolidColorBrush>
+    <SolidColorBrush x:Key="FontDarkOrangeColor">#bf8c26</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BackgroundButtonColor">#497f46</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundButtonColorHover">#3d6b3b</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundButtonColorClicked">#437541</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundButtonColorDisabled">#676b74</SolidColorBrush>
+
+
+    <SolidColorBrush x:Key="MediaPlayButtonColor">#a0aaaaaa</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundMainWindowColor">#34373e</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderMainWindowColor">#676b74</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundControlColor">#2d2e33</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundWindowColor">#202124</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundWindowDarkColor">#202124</SolidColorBrush>
+
+    <SolidColorBrush x:Key="ThumbColor">#9fa4b2</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbColorHover">#60656e</SolidColorBrush>
+    <SolidColorBrush x:Key="ThumbColorClick">#676c75</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BackgroundProductItemColor">#202124</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundProductItemColorHover">#17171a</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundProductItemColorClicked">#1b1c1f</SolidColorBrush>
+    <Color x:Key="EffectProductItemColor">#282a2f</Color>
+
+    <SolidColorBrush x:Key="BorderProductItemColor">#454649</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BackgroundProductButtonColor">#fbb94b</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundProductButtonColorHover">#f0af48</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundProductButtonColorClicked">#f5b349</SolidColorBrush>
+
+    <SolidColorBrush x:Key="FontProductButtonColor">#292a2e</SolidColorBrush>
+
+    <SolidColorBrush x:Key="BackgroundUIButtonBorderColorHover">#10ffffff</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundUIButtonBorderColorClicked">#20ffffff</SolidColorBrush>
+
+    <SolidColorBrush x:Key="CheckboxColor">#FEBA32</SolidColorBrush>
+    <SolidColorBrush x:Key="CheckboxColorHover">#FFDA83</SolidColorBrush>
+    <SolidColorBrush x:Key="CheckboxColorDisabled">#676A73</SolidColorBrush>
+    <SolidColorBrush x:Key="CheckboxTextColorDisabled">#676A73</SolidColorBrush>
+
+    <SolidColorBrush x:Key="SliderTrackColor">#4C4F57</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbColor">#A5ABB9</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbColorHover">#8D919B</SolidColorBrush>
+    <SolidColorBrush x:Key="SliderThumbColorClicked">#999EAA</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundPaymentWindow">#292A2E</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundFieldPaymentWindow">#202124</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundFieldPaymentWindowClicked">#18191C</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundFieldPaymentWindowHover">#0F0F11</SolidColorBrush>
+    <SolidColorBrush x:Key="HyperlinkPaymentWindowColor">#6E727C</SolidColorBrush>
+
+</ResourceDictionary>
